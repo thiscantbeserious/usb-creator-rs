@@ -32,12 +32,9 @@ impl Error for UsbWriterError {}
 
 #[derive(Debug)]
 pub struct UsbDisk {
-    pub name: String,
-    pub vendor: String,
-    pub model: String,
-    pub mountpoint: Option<String>,
+    pub path: String,
     pub size: u64,
-    pub blocktype: String,
+    pub name: Option<String>
 }
 
 pub trait UsbWriter {

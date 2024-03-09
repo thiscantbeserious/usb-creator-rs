@@ -32,27 +32,30 @@ impl UsbWriter for LinuxUsbWriter {
                     if blocktype != "disk" || !removable  { //only work with removable disks to make sure we don't write to the root partition
                         continue;
                     }
-                    let name = blk["name"].as_str().unwrap_or_default().to_string();
+                    let path = blk["name"].as_str().unwrap_or_default().to_string();
                     let vendor = blk["vendor"]
                         .as_str()
                         .unwrap_or_default()
                         .trim()
                         .to_string();
                     let model = blk["model"].as_str().unwrap_or_default().trim().to_string();
-                    let mountpoint = blk["mountpoint"].as_str().map(|s| s.to_string());
                     let size = Byte::parse_str(
                         &blk["size"].as_str().unwrap_or_default().replace(",", "."),
                         true,
                     )
                     .map(|b| b.as_u64())
                     .unwrap_or(0);
+                
+                    let name = if !vendor.is_empty() || !model.is_empty() {
+                        Some(format!("{}{}", vendor, model).trim().to_string())
+                    } else {
+                        None
+                    };
+
                     devices.push(UsbDisk {
-                        name: format!("/dev/{}", name),
-                        vendor,
-                        model,
-                        mountpoint,
+                        path: format!("/dev/{}", path),
                         size,
-                        blocktype,
+                        name
                     });
                 }
             }
