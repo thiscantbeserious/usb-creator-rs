@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Rust Project",
+            "program": "${workspaceFolder}/target/debug/usb-creator-rs",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
