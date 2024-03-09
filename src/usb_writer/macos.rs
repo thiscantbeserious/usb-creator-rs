@@ -20,10 +20,6 @@ impl UsbWriter for MacOSUsbWriter {
                 UsbWriterError::CommandExecutionError("Failed to execute lsblk".to_string())
             })?;
 
-        if !output.status.success() {
-            return Err("Failed to execute command".into());
-        }
-
         let output_str: &str = str::from_utf8(&output.stdout)
             .map_err(|e| UsbWriterError::ParseError(e.to_string()))?;
 
