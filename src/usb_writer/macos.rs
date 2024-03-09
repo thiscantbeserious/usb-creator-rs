@@ -4,9 +4,6 @@ use super::*;
 use std::process::Command;
 use std::str;
 
-use byte_unit::Byte;
-use serde_json;
-
 pub struct MacOSUsbWriter;
 
 impl UsbWriter for MacOSUsbWriter {

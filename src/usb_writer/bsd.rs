@@ -1,11 +1,7 @@
 // src/unix/usb_writer.rs
 use super::*;
 
-use std::process::Command;
 use std::str;
-
-use byte_unit::Byte;
-use serde_json;
 
 pub struct BSDUsbWriter;
 
