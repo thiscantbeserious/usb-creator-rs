@@ -7,9 +7,9 @@ use std::str;
 use byte_unit::Byte;
 use serde_json;
 
-pub struct MacOSUsbWriter;
+pub struct BSDUsbWriter;
 
-impl UsbWriter for MacOSUsbWriter {
+impl UsbWriter for BSDUsbWriter {
     fn list_devices() -> Result<Vec<UsbDisk>, UsbWriterError> {
         let mut devices = Vec::new();
         Ok(devices)

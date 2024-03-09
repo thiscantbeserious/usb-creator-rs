@@ -1,4 +1,5 @@
 // src/usb_writer.rs
+pub mod bsd;
 pub mod linux;
 pub mod macos;
 pub mod windows;

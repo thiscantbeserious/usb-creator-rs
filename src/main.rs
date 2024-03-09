@@ -2,6 +2,8 @@ mod usb_writer;
 
 use crate::usb_writer::UsbWriter;
 
+#[cfg(target_os = "freebsd")]
+use usb_writer::bsd::BSDUsbWriter as PlatformUsbWriter;
 #[cfg(any(target_os = "linux"))]
 use usb_writer::linux::LinuxUsbWriter as PlatformUsbWriter;
 #[cfg(any(target_os = "macos"))]
