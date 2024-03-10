@@ -3,7 +3,9 @@ use super::*;
 
 use std::process::Command;
 use std::str;
-use plist::{Value, Error, from_bytes}; // Import the `Value` type and `from_bytes` function
+
+use byte_unit::Byte;
+use plist::Value;
 
 pub struct MacOSUsbWriter;
 
@@ -42,17 +44,16 @@ impl UsbWriter for MacOSUsbWriter {
                     .get("DeviceIdentifier")
                     .and_then(Value::as_string)
                     .unwrap_or_default();
-                let size = disk
-                    .get("Size")
-                    .and_then(Value::as_unsigned_integer)
-                    .unwrap_or_default();
+                let size = Byte::parse_str(
+                    disk.get("Size")
+                        .and_then(Value::as_string)
+                        .unwrap_or_default(),
+                    true,
+                )
+                .map(|b| b.as_u64())
+                .unwrap_or(0);
                 let volume_name = disk
                     .get("VolumeName")
-                    .and_then(Value::as_string)
-                    .map(|s| s.to_owned());
-
-                let mount_point = disk
-                    .get("MountPoint")
                     .and_then(Value::as_string)
                     .map(|s| s.to_owned());
 
@@ -60,7 +61,6 @@ impl UsbWriter for MacOSUsbWriter {
                     path: format!("/dev/{}", device_identifier),
                     size: size,
                     name: volume_name.clone(), // Here assuming volume_name as name for simplification
-                                               // Further fields like `vendor` and `usbtype` require additional logic not directly available from diskutil
                 });
             }
         }
