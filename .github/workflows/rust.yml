@@ -22,8 +22,6 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
 
-      name: Run commands on different operating systems
-
   windows-build:
     
     name: Windows build
