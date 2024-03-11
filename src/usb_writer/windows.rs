@@ -2,13 +2,28 @@ use super::*;
 
 // https://codentium.com/guides/windows-dev/windows-drivers-in-rust-io-controls/
 
-use ::windows::Win32::Foundation::{ERROR_NO_MORE_FILES, HANDLE, GENERIC_READ, GENERIC_WRITE};
+use ::windows::Win32::Foundation::{
+    CloseHandle, 
+    ERROR_NO_MORE_FILES, 
+    GENERIC_READ, 
+    GENERIC_WRITE, 
+    HANDLE
+};
 
 use ::windows::Win32::Storage::FileSystem::{
-    CreateFileW, FindFirstVolumeW, FindNextVolumeW, FindVolumeClose, GetVolumePathNamesForVolumeNameW, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, FILE_SHARE_WRITE, OPEN_EXISTING
+    CreateFileW, 
+    FindFirstVolumeW, 
+    FindNextVolumeW, 
+    FindVolumeClose, 
+    GetVolumePathNamesForVolumeNameW, 
+    FILE_ATTRIBUTE_NORMAL, 
+    FILE_SHARE_READ, 
+    FILE_SHARE_WRITE, 
+    OPEN_EXISTING
 };
 use ::windows::Win32::System::Ioctl::{
-    IOCTL_DISK_GET_DRIVE_GEOMETRY, IOCTL_STORAGE_QUERY_PROPERTY, STORAGE_PROPERTY_QUERY,
+    IOCTL_DISK_GET_DRIVE_GEOMETRY, 
+    IOCTL_STORAGE_QUERY_PROPERTY
 };
 
 use ::windows::Win32::System::IO::DeviceIoControl;
@@ -20,9 +35,14 @@ pub struct WindowsUsbWriter {
     handle: HANDLE,
 }
 
+pub struct WindowsVolumeInfo {
+    volume_name: String,
+    volume_path: String,
+    volume_size: u64,
+}
+
 impl WindowsUsbWriter {
-    /// This will return all volume names on the system.
-    /// We do not know yet if the volume is removable or not.
+    /// Will return all volume names on the system (unfiltered)
     fn get_volume_names() -> Result<Vec<String>, Error> {
         let mut volume_names = Vec::new();
         let mut volume_name_buf: [u16; 1024] = [0; 1024];
@@ -59,10 +79,12 @@ impl WindowsUsbWriter {
         Ok(volume_names)
     }
 
-    fn query_volume_info(volume_name: String) {
+    /// Will return the specific volume info for the given volume name
+    /// Including metadata such as disk size
+    fn query_volume_info(volume_name: String) -> Result<WindowsVolumeInfo, Error> {
         
         unsafe {
-            let volume_handle = CreateFileW(
+            match CreateFileW( 
                 &HSTRING::from(&volume_name),
                 GENERIC_READ.0 as u32,
                 FILE_SHARE_READ,
@@ -70,7 +92,26 @@ impl WindowsUsbWriter {
                 OPEN_EXISTING,
                 FILE_ATTRIBUTE_NORMAL,
                 None
-            );
+            ) {
+                Ok(volume_handle) => {
+                    if volume_handle.is_invalid() {
+                        return Err(Error::from_win32());
+                    }
+                    let volume_info = WindowsVolumeInfo {
+                        volume_name,
+                        volume_path: String::new(),
+                        volume_size: 0,
+                    };
+                    let _ = CloseHandle(volume_handle);
+                    Ok(volume_info)
+
+                },
+                Err(e) => {
+                    return Err(e.into());
+                }
+            }
+
+            
         }
     }
 }
