@@ -32,7 +32,7 @@ impl Error for UsbWriterError {}
 
 #[derive(Debug)]
 pub struct UsbDisk {
-    pub path: String,
+    pub identifier: String,
     pub size: u64,
     pub name: Option<String>
 }

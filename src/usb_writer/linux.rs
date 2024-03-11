@@ -53,7 +53,7 @@ impl UsbWriter for LinuxUsbWriter {
                     };
 
                     devices.push(UsbDisk {
-                        path: format!("/dev/{}", path),
+                        identifier: format!("/dev/{}", path),
                         size,
                         name
                     });

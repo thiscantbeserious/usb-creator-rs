@@ -58,7 +58,7 @@ impl UsbWriter for MacOSUsbWriter {
                     .map(|s| s.to_owned());
 
                 devices.push(UsbDisk {
-                    path: format!("/dev/{}", device_identifier),
+                    identifier: format!("/dev/{}", device_identifier),
                     size: size,
                     name: volume_name.clone(), // Here assuming volume_name as name for simplification
                 });
