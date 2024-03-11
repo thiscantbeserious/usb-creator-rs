@@ -22,7 +22,7 @@ use ::windows::Win32::Storage::FileSystem::{
     OPEN_EXISTING
 };
 use ::windows::Win32::System::Ioctl::{
-    PropertyStandardQuery, StorageDeviceProperty, IOCTL_DISK_GET_DRIVE_GEOMETRY, IOCTL_STORAGE_QUERY_PROPERTY, STORAGE_PROPERTY_QUERY
+    PropertyStandardQuery, StorageDeviceProperty, IOCTL_DISK_GET_DRIVE_GEOMETRY, IOCTL_STORAGE_QUERY_PROPERTY, STORAGE_DEVICE_DESCRIPTOR, STORAGE_PROPERTY_QUERY
 };
 
 use ::windows::Win32::System::IO::DeviceIoControl;
@@ -84,7 +84,7 @@ impl WindowsUsbWriter {
         handle: HANDLE, 
         controlcode: u32, 
         input_buffer: Option<&T>, 
-        output_buffer: Option<&mut U>
+        output_buffer: Option<&U>
     ) -> Result<u32, Error> { // Returns bytes_returned or an error
         let mut bytes_returned: u32 = 0;
         unsafe {
@@ -93,11 +93,12 @@ impl WindowsUsbWriter {
                 controlcode,
                 input_buffer.map_or(None, |b| Some(b as *const _ as *mut _)), // Cast input_buffer to pointer
                 input_buffer.map_or(0, |_| std::mem::size_of::<T>() as u32), // Input buffer size
-                output_buffer.map_or(None, |b| Some(b as *mut _ as *mut _)), // Cast output_buffer to pointer
+                output_buffer.map_or(None, |b| Some(b as *const _ as *mut _)), // Cast output_buffer to pointer
                 output_buffer.map_or(0, |_| std::mem::size_of::<U>() as u32), // Output buffer size
                 Some(&mut bytes_returned as *mut _),
                 None, // Overlapped not used
-            ).ok_or(...)?;
+            );
+            // TODO: THIS SHOULD NOT WORK PROPERLY
         }
         Ok(bytes_returned)
     }
@@ -130,10 +131,13 @@ impl WindowsUsbWriter {
                         AdditionalParameters: [0]
                     };
 
+                    let mut output_buffer: STORAGE_DEVICE_DESCRIPTOR = std::mem::zeroed(); 
+
                     WindowsUsbWriter::query_io_controlcode(
                         volume_handle, 
                         IOCTL_STORAGE_QUERY_PROPERTY, 
-                        disk_removable_query
+                        Some(&disk_removable_query),
+                        Some(&mut output_buffer)
                     );
                     
                     let volume_info = WindowsVolumeInfo {
