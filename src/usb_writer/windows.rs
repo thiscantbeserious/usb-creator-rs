@@ -22,8 +22,7 @@ use ::windows::Win32::Storage::FileSystem::{
     OPEN_EXISTING
 };
 use ::windows::Win32::System::Ioctl::{
-    IOCTL_DISK_GET_DRIVE_GEOMETRY, 
-    IOCTL_STORAGE_QUERY_PROPERTY
+    PropertyStandardQuery, StorageDeviceProperty, IOCTL_DISK_GET_DRIVE_GEOMETRY, IOCTL_STORAGE_QUERY_PROPERTY, STORAGE_PROPERTY_QUERY
 };
 
 use ::windows::Win32::System::IO::DeviceIoControl;
@@ -42,6 +41,7 @@ pub struct WindowsVolumeInfo {
 }
 
 impl WindowsUsbWriter {
+
     /// Will return all volume names on the system (unfiltered)
     fn get_volume_names() -> Result<Vec<String>, Error> {
         let mut volume_names = Vec::new();
@@ -79,11 +79,37 @@ impl WindowsUsbWriter {
         Ok(volume_names)
     }
 
+    /// Will Query the Controlcode of the Volume with the given handle
+    fn query_io_controlcode<T, U>(
+        handle: HANDLE, 
+        controlcode: u32, 
+        input_buffer: Option<&T>, 
+        output_buffer: Option<&mut U>
+    ) -> Result<u32, Error> { // Returns bytes_returned or an error
+        let mut bytes_returned: u32 = 0;
+        unsafe {
+            DeviceIoControl(
+                handle,
+                controlcode,
+                input_buffer.map_or(None, |b| Some(b as *const _ as *mut _)), // Cast input_buffer to pointer
+                input_buffer.map_or(0, |_| std::mem::size_of::<T>() as u32), // Input buffer size
+                output_buffer.map_or(None, |b| Some(b as *mut _ as *mut _)), // Cast output_buffer to pointer
+                output_buffer.map_or(0, |_| std::mem::size_of::<U>() as u32), // Output buffer size
+                Some(&mut bytes_returned as *mut _),
+                None, // Overlapped not used
+            ).ok_or(...)?;
+        }
+        Ok(bytes_returned)
+    }
+
     /// Will return the specific volume info for the given volume name
     /// Including metadata such as disk size
     fn query_volume_info(volume_name: String) -> Result<WindowsVolumeInfo, Error> {
         
         unsafe {
+
+
+            // Open our handle to the volume.
             match CreateFileW( 
                 &HSTRING::from(&volume_name),
                 GENERIC_READ.0 as u32,
@@ -97,12 +123,29 @@ impl WindowsUsbWriter {
                     if volume_handle.is_invalid() {
                         return Err(Error::from_win32());
                     }
+
+                    let disk_removable_query:STORAGE_PROPERTY_QUERY = STORAGE_PROPERTY_QUERY {
+                        PropertyId: StorageDeviceProperty,
+                        QueryType: PropertyStandardQuery, 
+                        AdditionalParameters: [0]
+                    };
+
+                    WindowsUsbWriter::query_io_controlcode(
+                        volume_handle, 
+                        IOCTL_STORAGE_QUERY_PROPERTY, 
+                        disk_removable_query
+                    );
+                    
                     let volume_info = WindowsVolumeInfo {
                         volume_name,
                         volume_path: String::new(),
                         volume_size: 0,
                     };
+
+
+                    // Make sure we close our handle to the volume.
                     let _ = CloseHandle(volume_handle);
+
                     Ok(volume_info)
 
                 },
@@ -118,7 +161,16 @@ impl WindowsUsbWriter {
 
 impl UsbWriter for WindowsUsbWriter {
     fn list_devices() -> Result<Vec<UsbDisk>, UsbWriterError> {
-        let volume_names = WindowsUsbWriter::get_volume_names();
+        match WindowsUsbWriter::get_volume_names() {
+            Ok(volume_list) => {
+                for volume_name in volume_list {
+                    let result = WindowsUsbWriter::query_volume_info(volume_name);
+                }
+            },
+            Err(e) => {
+                return Err(UsbWriterError::ListDevicesError(e.to_string()));
+            }
+        }
         Ok(vec![])
     }
 

@@ -12,6 +12,7 @@ pub enum UsbWriterError {
     CommandExecutionError(String),
     ParseError(String),
     OpenDeviceError(String),
+    ListDevicesError(String),
     // Other error variants here
 }
 
@@ -22,6 +23,7 @@ impl fmt::Display for UsbWriterError {
                 write!(f, "Command execution error: {}", err)
             }
             UsbWriterError::ParseError(ref err) => write!(f, "Parse error: {}", err),
+            UsbWriterError::ListDevicesError(ref err) => write!(f, "List devices error: {}", err),
             UsbWriterError::OpenDeviceError(ref err) => write!(f, "Open error: {}", err),
             // Handle other variants here
         }
