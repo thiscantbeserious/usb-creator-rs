@@ -2,11 +2,62 @@
 
 ![build status](https://github.com/thiscantbeserious/usb-creator-rs/actions/workflows/rust.yml/badge.svg)
 
+This is a Commandline & GUI Tool to create an Bootable USB-Disk/External-HDD/SD-Card for Linux, MacOS, Windows and maybe even FreeBSD. It is not designed to work with Internal drives to prevent accidental overrides.
+
 ## Status: Not ready yet 
 
-| Linux | MacOS | Windows | FreeBsd |
-|-------------|-------------|-------------|-------------|
-| lists disks | lists disks | lists disks?|-            |
+<table>
+  <th>Feature</th><th>Linux</th><th>MacOS</th><th>Windows</th><th>FreeBSD</th>
+  <tr>
+    <th>List Disks</th>
+    <td>&check;</td>
+    <td>&check;</td>
+    <td>&check;</td>
+    <td>5%</td>
+  </tr>
+  <tr>
+    <th>Write Image</th>
+    <td>5%</td>
+    <td>5%</td>
+    <td>5%</td>
+    <td>5%</td>
+  </tr>  
+  <tr>
+    <th>Unit Tests</th>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+  </tr>
+  <tr>
+    <th>Integration Tests</th>
+    <td>20%</td>
+    <td>20%</td>
+    <td>20%</td>
+    <td>0%</td>
+  </tr>     
+  <tr>
+    <th>Request Elevated Permissions</th>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+  </tr>
+  <tr>
+    <th>Ensure Drive not Mounted</th>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+  </tr>
+  <tr>
+    <th>GUI</th>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+    <td>0%</td>
+  </tr>  
+</table>
 
 ## Next steps: 
 1. Mock implementation for Unit-Tests without USB-Devices
@@ -14,8 +65,6 @@
 3. BSD: basic implementation for list_devices
 4. Revamp / rethink proper architecture (API & Threading)
 5. Implement UI - most likely via Dioxus -> https://dioxuslabs.com/
-
-This is a tool to create an USB-Disk for Linux, MacOS, Windows and even FreeBSD
 
 It does not use old legacy code and a plethora of libraries, but simple standard tools and system-level access to the OS directly.
 
