@@ -97,7 +97,7 @@ impl WindowsUsbWriter {
                 output_buffer.map_or(0, |_| std::mem::size_of::<U>() as u32), // Output buffer size
                 Some(&mut bytes_returned as *mut _),
                 None, // Overlapped not used
-            );
+            )?;
             // TODO: THIS SHOULD NOT WORK PROPERLY
         }
         Ok(bytes_returned)
@@ -131,14 +131,14 @@ impl WindowsUsbWriter {
                         AdditionalParameters: [0]
                     };
 
-                    let mut output_buffer: STORAGE_DEVICE_DESCRIPTOR = std::mem::zeroed(); 
+                    let mut disk_removable_buf: STORAGE_DEVICE_DESCRIPTOR = std::mem::zeroed(); 
 
                     WindowsUsbWriter::query_io_controlcode(
                         volume_handle, 
                         IOCTL_STORAGE_QUERY_PROPERTY, 
                         Some(&disk_removable_query),
-                        Some(&mut output_buffer)
-                    );
+                        Some(&mut disk_removable_buf)
+                    )?;
                     
                     let volume_info = WindowsVolumeInfo {
                         volume_name,
