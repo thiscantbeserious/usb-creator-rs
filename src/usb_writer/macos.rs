@@ -70,8 +70,8 @@ impl MacOSUsbWriter {
     fn cmd_diskutil_plist() -> Result<Output, UsbWriterError> {
         let output = Command::new("diskutil")
             .arg("list")
-            .arg("external")
             .arg("-plist")
+            .arg("external")
             .output()
             .map_err(|_| {
                 UsbWriterError::CommandExecutionError("Failed to execute diskutil".to_string())
