@@ -1,4 +1,4 @@
-// src/unix/usb_writer.rs
+// src/usb_writer/macos.rs
 use super::*;
 
 use std::process::{Command, Output};
