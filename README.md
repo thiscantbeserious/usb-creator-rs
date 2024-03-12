@@ -1,4 +1,4 @@
-# USB-Creator-RS
+# USB-Creator-RS - 0.0.1
 
 ![build status](https://github.com/thiscantbeserious/usb-creator-rs/actions/workflows/rust.yml/badge.svg)
 
@@ -25,6 +25,6 @@ However I will add an GUI later on too, after the basics have been done.
 
 Ideally this is a single binary that can be used from commandline and GUI without caring about the specific nitty picky OS-Details. 
 
-Unsure - turn this into a crate/library:
+Unsure - turn this into a Rust crate/library:
 
 Maybe I'm able to make this a re-usable cross-device library / crate too that can serve as a basic package for other use-cases
