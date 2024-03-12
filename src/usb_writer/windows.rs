@@ -1,5 +1,4 @@
 // src/usb_writer/windows.rs
-
 use super::*;
 
 // https://codentium.com/guides/windows-dev/windows-drivers-in-rust-io-controls/
@@ -181,7 +180,6 @@ impl UsbWriter for WindowsUsbWriter {
     }
 
     fn open_device(device_path: &str) -> Result<(), UsbWriterError> {
-        // Placeholder: Use `windows` crate as previously described
         Ok(())
     }
 }

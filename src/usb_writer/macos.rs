@@ -61,6 +61,57 @@ pub struct MacOSUsbWriter;
 // </dict>
 // </plist>
 
+// 2nd example plist for Mocking:
+// <?xml version="1.0" encoding="UTF-8"?>
+// <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+// <plist version="1.0">
+// <dict>
+// 	<key>AllDisks</key>
+// 	<array>
+// 		<string>disk5</string>
+// 		<string>disk5s1</string>
+// 	</array>
+// 	<key>AllDisksAndPartitions</key>
+// 	<array>
+// 		<dict>
+// 			<key>Content</key>
+// 			<string>FDisk_partition_scheme</string>
+// 			<key>DeviceIdentifier</key>
+// 			<string>disk5</string>
+// 			<key>OSInternal</key>
+// 			<false/>
+// 			<key>Partitions</key>
+// 			<array>
+// 				<dict>
+// 					<key>Content</key>
+// 					<string>Windows_FAT_32</string>
+// 					<key>DeviceIdentifier</key>
+// 					<string>disk5s1</string>
+// 					<key>MountPoint</key>
+// 					<string>/Volumes/NO NAME</string>
+// 					<key>Size</key>
+// 					<integer>125459988480</integer>
+// 					<key>VolumeName</key>
+// 					<string>NO NAME</string>
+// 					<key>VolumeUUID</key>
+// 					<string>130DC231-74A2-3725-A730-1EAC88AFB485</string>
+// 				</dict>
+// 			</array>
+// 			<key>Size</key>
+// 			<integer>125460021248</integer>
+// 		</dict>
+// 	</array>
+// 	<key>VolumesFromDisks</key>
+// 	<array>
+// 		<string>NO NAME</string>
+// 	</array>
+// 	<key>WholeDisks</key>
+// 	<array>
+// 		<string>disk5</string>
+// 	</array>
+// </dict>
+// </plist>
+
 impl MacOSUsbWriter {
 
     /// On MacOS we'll use the `diskutil` command to query the disk information.
