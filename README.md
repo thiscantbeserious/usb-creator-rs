@@ -4,7 +4,11 @@
 
 This is a Commandline & GUI Tool to create an Bootable USB-Disk/External-HDD/SD-Card for Linux, MacOS, Windows and maybe even FreeBSD. It is not designed to work with Internal drives to prevent accidental overrides.
 
-## Status: Not ready yet 
+It does not use old scrumbled legacy code and a plethora of libraries, but simple standard tools and system-level access to the OS directly. 
+
+Goal is to provide one End-User Tool for all OS'es that works the same in a clean and standardized way (from an End-User perspective, not from a technical way - it should abstract away all the nitty picky OS-Details).
+
+## Status: Commandline Only - Not ready yet 
 
 <table>
   <th>Feature</th><th>Linux</th><th>MacOS</th><th>Windows</th><th>FreeBSD</th>
@@ -66,14 +70,4 @@ This is a Commandline & GUI Tool to create an Bootable USB-Disk/External-HDD/SD-
 4. Revamp / rethink proper architecture (API & Threading)
 5. Implement UI - most likely via Dioxus -> https://dioxuslabs.com/
 
-It does not use old legacy code and a plethora of libraries, but simple standard tools and system-level access to the OS directly.
 
-Currently it does not do anything besides listing external Disks, that is also USB-HDDs and SD-Cards too. 
-
-However I will add an GUI later on too, after the basics have been done.
-
-Ideally this is a single binary that can be used from commandline and GUI without caring about the specific nitty picky OS-Details. 
-
-Unsure - turn this into a Rust crate/library:
-
-Maybe I'm able to make this a re-usable cross-device library / crate too that can serve as a basic package for other use-cases
