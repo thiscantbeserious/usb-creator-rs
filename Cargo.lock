@@ -670,6 +670,7 @@ name = "usb-creator-rs"
 version = "0.0.1"
 dependencies = [
  "byte-unit",
+ "lazy_static",
  "mockall",
  "plist",
  "serde_json",

@@ -1,4 +1,5 @@
 mod usb_writer;
+mod utils;
 
 use crate::usb_writer::UsbWriter;
 

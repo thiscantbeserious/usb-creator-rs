@@ -1,0 +1,220 @@
+{
+   "blockdevices": [
+      {
+         "name": "loop0",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/bare/5",
+         "size": "4K",
+         "type": "loop"
+      },{
+         "name": "loop1",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/core18/2812",
+         "size": "55,7M",
+         "type": "loop"
+      },{
+         "name": "loop2",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/core22/1122",
+         "size": "74,2M",
+         "type": "loop"
+      },{
+         "name": "loop3",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/gnome-3-28-1804/198",
+         "size": "164,8M",
+         "type": "loop"
+      },{
+         "name": "loop4",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/gnome-42-2204/141",
+         "size": "497M",
+         "type": "loop"
+      },{
+         "name": "loop5",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/gtk-common-themes/1535",
+         "size": "91,7M",
+         "type": "loop"
+      },{
+         "name": "loop6",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/snap-store/959",
+         "size": "12,3M",
+         "type": "loop"
+      },{
+         "name": "loop7",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/snapd/20671",
+         "size": "40,4M",
+         "type": "loop"
+      },{
+         "name": "loop8",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/snapd/21184",
+         "size": "39,1M",
+         "type": "loop"
+      },{
+         "name": "loop9",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/snap-store/1113",
+         "size": "12,9M",
+         "type": "loop"
+      },{
+         "name": "loop10",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/core20/2182",
+         "size": "63,9M",
+         "type": "loop"
+      },{
+         "name": "loop11",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "/snap/flutter/145",
+         "size": "206,3M",
+         "type": "loop"
+      },{
+         "name": "sda",
+         "vendor": "Generic-",
+         "rm": true,
+         "model": "SD/MMC",
+         "mountpoint": null,
+         "size": "0B",
+         "type": "disk"
+      },{
+         "name": "sdb",
+         "vendor": "Phison  ",
+         "rm": true,
+         "model": "USB DISK 50X",
+         "mountpoint": null,
+         "size": "58,9G",
+         "type": "disk",
+         "children": [
+            {
+               "name": "sdb1",
+               "vendor": null,
+               "rm": true,
+               "model": null,
+               "mountpoint": "/media/doh/CCCOMA_X64FRE_DE-DE_DV9",
+               "size": "58,9G",
+               "type": "part"
+            },{
+               "name": "sdb2",
+               "vendor": null,
+               "rm": true,
+               "model": null,
+               "mountpoint": "/media/doh/UEFI_NTFS",
+               "size": "1M",
+               "type": "part"
+            }
+         ]
+      },{
+         "name": "zram0",
+         "vendor": null,
+         "rm": false,
+         "model": null,
+         "mountpoint": "[SWAP]",
+         "size": "16G",
+         "type": "disk"
+      },{
+         "name": "nvme0n1",
+         "vendor": null,
+         "rm": false,
+         "model": "Samsung SSD 970 EVO Plus 2TB",
+         "mountpoint": null,
+         "size": "1,8T",
+         "type": "disk",
+         "children": [
+            {
+               "name": "nvme0n1p1",
+               "vendor": null,
+               "rm": false,
+               "model": null,
+               "mountpoint": "/boot/efi",
+               "size": "1022M",
+               "type": "part"
+            },{
+               "name": "nvme0n1p2",
+               "vendor": null,
+               "rm": false,
+               "model": null,
+               "mountpoint": "/recovery",
+               "size": "4G",
+               "type": "part"
+            },{
+               "name": "nvme0n1p3",
+               "vendor": null,
+               "rm": false,
+               "model": null,
+               "mountpoint": null,
+               "size": "1,8T",
+               "type": "part",
+               "children": [
+                  {
+                     "name": "cryptdata",
+                     "vendor": null,
+                     "rm": false,
+                     "model": null,
+                     "mountpoint": null,
+                     "size": "1,8T",
+                     "type": "crypt",
+                     "children": [
+                        {
+                           "name": "data-root",
+                           "vendor": null,
+                           "rm": false,
+                           "model": null,
+                           "mountpoint": "/home",
+                           "size": "1,8T",
+                           "type": "lvm"
+                        }
+                     ]
+                  }
+               ]
+            },{
+               "name": "nvme0n1p4",
+               "vendor": null,
+               "rm": false,
+               "model": null,
+               "mountpoint": null,
+               "size": "4G",
+               "type": "part",
+               "children": [
+                  {
+                     "name": "cryptswap",
+                     "vendor": null,
+                     "rm": false,
+                     "model": null,
+                     "mountpoint": "[SWAP]",
+                     "size": "4G",
+                     "type": "crypt"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
